@@ -6,7 +6,7 @@ const offsetX = 10;
 const offsetY = 200;
 const textOffsetY = 180;
 
-const onFill = 'rgb(140,140,140)'
+const onFill = 'rgb(100,160,160)'
 
 function makeSVG(tag, attrs) {
     var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
@@ -56,22 +56,41 @@ function createCanvas() {
                 i: i,
                 j: j
             };
+            
             var square = makeSVG('rect', attrs);
             $("#canvas").append(square);
-
+        
+            square.addEventListener("click", function() {
+                playChord(chordByOrder(this.getAttribute('i'), this.getAttribute('j')));
+            }); 
+            square.isOn = false;
+            
+            //
             attrs = {
                 x: i * xIncr + width + offsetX - 10,
                 y: j * yIncr + height + offsetY - 10,
                 width: 10,
                 height: 10,
-                fill: 'rgb(180,180,180)'
+                fill: 'darkgrey',
             };
+            
             var vol = makeSVG('rect', attrs);
             $("#canvas").append(vol);
-
-            square.addEventListener("click", function() {
-                playChord(chordByOrder(this.getAttribute('i'), this.getAttribute('j')));
+            
+            vol.square = square;
+            
+            vol.addEventListener("click", function() {
+                console.log(this.square);
+                if (this.square.isOn) {
+                    this.square.isOn = false;
+                    this.setAttribute('fill','darkgrey');
+                }
+                else {
+                    this.square.isOn = true;
+                    this.setAttribute('fill','lightgrey');   
+                }                
             });   
+            
         }
     }
     

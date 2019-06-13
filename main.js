@@ -107,13 +107,10 @@ const chords = {
     }
 }
 
-
-
 function randomProperty (obj) {
     var keys = Object.keys(obj)
-    return obj[keys[ keys.length * Math.random() << 0]];
+    return obj[keys[keys.length * Math.random() << 0]];
 }
-
 
 function randomMask() {
     return randomProperty(randomProperty(chords));
@@ -138,7 +135,6 @@ function playChord(chord) {
 //    polySynth.triggerRelease();
 //    polySynth.triggerAttackRelease(
 //        chord, "1n");
-    
     piano.triggerRelease();
     piano.triggerAttackRelease(
         chord, "1n");
@@ -175,8 +171,15 @@ function demand() {
 var piano = SampleLibrary.load({
       instruments: "piano",
       ext: ".wav",
+      minify: true,
       baseUrl: "https://raw.githubusercontent.com/spitlord/tonejs-instruments/master/samples/",
+//          baseUrl: "http://localhost/soundtrain/samples",
       onload: function () {
+         
+          console.log('samples loaded');
+          
+            piano.toMaster();
+          
       }
   });
 
